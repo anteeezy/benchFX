@@ -7,9 +7,10 @@ pub struct Metrics {
     pub min_latency_ms: f64,
     pub max_latency_ms: f64,
     pub avg_latency_ms: f64,
+    pub throughput: f64,
 }
 
-pub fn compute_metrics(results: &[TaskResult]) -> Option<Metrics> {
+pub fn compute_metrics(results: &[TaskResult], throughput: f64) -> Option<Metrics> {
     let success_count = results.iter().filter(|r| r.success).count();
     let failure_count = results.len() - success_count;
 
@@ -46,5 +47,6 @@ pub fn compute_metrics(results: &[TaskResult]) -> Option<Metrics> {
         min_latency_ms: min_latency,
         max_latency_ms: max_latency,
         avg_latency_ms: avg_latency,
+        throughput
     })
 }

@@ -8,8 +8,9 @@ fn metrics_all_success() {
         TaskResult { success: true, duration_ms: 200.0 },
         TaskResult { success: true, duration_ms: 300.0 },
     ];
+    let throughput: f64 = 10.0;
 
-    let m = compute_metrics(&results).expect("expected metrics");
+    let m = compute_metrics(&results, throughput).expect("expected metrics");
 
     assert_eq!(m.success_count, 3);
     assert_eq!(m.failure_count, 0);
@@ -25,8 +26,9 @@ fn metrics_mixed_success_and_failure() {
         TaskResult { success: false, duration_ms: 999.0 },
         TaskResult { success: true,  duration_ms: 300.0 },
     ];
+    let throughput: f64 = 10.0;
 
-    let m = compute_metrics(&results).expect("expected metrics");
+    let m = compute_metrics(&results, throughput).expect("expected metrics");
 
     assert_eq!(m.success_count, 2);
     assert_eq!(m.failure_count, 1);
@@ -41,15 +43,17 @@ fn metrics_no_success_returns_none() {
         TaskResult { success: false, duration_ms: 100.0 },
         TaskResult { success: false, duration_ms: 200.0 },
     ];
+    let throughput: f64 = 10.0;
 
-    let m = compute_metrics(&results);
+    let m = compute_metrics(&results, throughput);
     assert!(m.is_none());
 }
 
 #[test]
 fn metrics_empty_results_returns_none() {
     let results: Vec<TaskResult> = Vec::new();
+    let throughput: f64 = 10.0;
 
-    let m = compute_metrics(&results);
+    let m = compute_metrics(&results, throughput);
     assert!(m.is_none());
 }

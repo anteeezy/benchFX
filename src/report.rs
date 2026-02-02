@@ -14,6 +14,8 @@ Iterations:   {iterations}
 Successes:    {successes}
 Failures:     {failures}
 
+Throughput:   {throughput}
+
 Latency (ms)
   Min:        {min:.3}
   Avg:        {avg:.3}
@@ -25,6 +27,7 @@ Latency (ms)
         iterations = config.iterations,
         successes = metrics.success_count,
         failures = metrics.failure_count,
+        throughput = metrics.throughput,
         min = metrics.min_latency_ms,
         avg = metrics.avg_latency_ms,
         max = metrics.max_latency_ms,

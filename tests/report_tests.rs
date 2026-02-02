@@ -17,6 +17,7 @@ fn summary_contains_core_fields() {
         min_latency_ms: 10.0,
         max_latency_ms: 50.0,
         avg_latency_ms: 30.0,
+        throughput: 20.0,
     };
 
     let output = format_summary(&config, &metrics);
