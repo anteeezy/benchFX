@@ -84,6 +84,26 @@ Latency (ms):
 ========================
 ```
 
+```
+{
+  "target": {
+    "command": "echo hi"
+  },
+  "iterations": 3,
+  "successes": 3,
+  "failures": 0,
+  "throughput_runs_per_sec": 58.41849451645065,
+  "latency_ms": {
+    "min": 16.3559,
+    "avg": 17.115066666666667,
+    "p50": 16.6343,
+    "p90": 18.355,
+    "p95": 18.355,
+    "p99": 18.355,
+    "max": 18.355
+  }
+}
+```
 ---
 
 ## Design Principles
@@ -99,7 +119,7 @@ Latency (ms):
 
 - [x] Throughput calculation
 - [x] Percentile metrics
-- [ ] JSON output
+- [x] JSON output
 - [ ] Configurable concurrency
 - [ ] Live progress display
 - [ ] HTTP benchmarking mode
