@@ -1,10 +1,3 @@
-    __                    __   _  __
-   / /_  ___  ____  _____/ /_ | |/ /
-  / __ \/ _ \/ __ \/ ___/ __ \|   / 
- / /_/ /  __/ / / / /__/ / / /   |  
-/_.___/\___/_/ /_/\___/_/ /_/_/|_|  
-                                                     
-      
 # BenchX
 
 BenchX is a Rust CLI tool for benchmarking arbitrary system commands.
