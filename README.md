@@ -1,4 +1,4 @@
-![CI](https://github.com/anteeezy/benchfx/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/anteeezy/benchfx/actions/workflows/rust.yml/badge.svg)
 ![Rust](https://img.shields.io/badge/rust-stable-orange.svg)
 
 # BenchFX
