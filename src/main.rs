@@ -1,4 +1,4 @@
-use crate::task::{TaskResult, run_once};
+use crate::task::{TaskResult, run_sequential, run_concurrent};
 use crate::metrics::compute_metrics;
 use crate::report::print_summary;
 use crate::report::output_json;
@@ -14,14 +14,12 @@ fn main() {
 
     let now = Instant::now();
     
-    // let results: Vec<TaskResult> = if config.concurrency > 1 {
-    //     run_concurrent();
-    // } else {
-    //     run_sequential(&config.command, config.iterations);
-    // }
-    // }
-    let results: Vec<TaskResult> = run_sequential(&config.command, config.iterations);
-
+    let results: Vec<TaskResult> = if config.concurrency > 1 {
+        run_concurrent(&config.command, config.iterations, config.concurrency)
+    } else {
+        run_sequential(&config.command, config.iterations)
+    };
+    
     let duration = now.elapsed();
     let duration_sec = duration.as_secs_f64();
     let throughput = results.len() as f64 / duration_sec;
@@ -39,16 +37,3 @@ fn main() {
         },
     }
 }
-
-fn run_sequential(command: &str, iterations: usize) -> Vec<TaskResult> {
-    let mut results: Vec<TaskResult> = Vec::new();
-    for _ in 0..iterations {
-        let  t = run_once(command);
-        results.push(t);
-    }
-    results
-}
-
-// fn run_concurrent() -> Vec<TaskResult> {
-//     Vec<TaskResult>::new();
-// }
