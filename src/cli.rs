@@ -7,17 +7,18 @@ pub enum OutputFormat {
 }
 
 #[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
+#[command(name = "benchFX")]
+#[command(about = "Benchmark arbitrary system commands with latency and throughput metrics")]
 pub struct Config {
-    #[arg(long)]
+    #[arg(long, help = "Command to execute (wrap in quotes)")]
     pub command: String,
-    #[arg(long)]
+    #[arg(long, help = "Total number of executions")]
     pub iterations: usize,
-    #[arg(long, default_value_t = 1)]
+    #[arg(long, default_value_t = 1, help = "Maximum concurrent workers")]
     pub concurrency: usize,
-    #[arg(long, default_value_t = 1000)]
+    #[arg(long, default_value_t = 1000, help = "Timeout per execution in milliseconds")]
     pub timeout: usize,
-    #[arg(long, value_enum, default_value_t = OutputFormat::Pretty)]
+    #[arg(long, value_enum, default_value_t = OutputFormat::Pretty, help = "Output format: pretty (default) or json")]
     pub output: OutputFormat,
 }
 

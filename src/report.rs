@@ -13,6 +13,7 @@ pub fn format_summary(config: &Config, metrics: &Metrics) -> String {
 
 Command:      {command}
 Iterations:   {iterations}
+Concurrency:  {concurrency}
 Successes:    {successes}
 Failures:     {failures}
 
@@ -32,6 +33,7 @@ Latency (ms)
 ",
         command = config.command,
         iterations = config.iterations,
+        concurrency = config.concurrency,
         successes = metrics.success_count,
         failures = metrics.failure_count,
         throughput = metrics.throughput,
@@ -54,6 +56,7 @@ pub fn print_summary(config: &Config, metrics: &Metrics) {
 struct JsonReport<'a> {
     target: Target<'a>,
     iterations: usize,
+    concurrency: usize,
     successes: usize,
     failures: usize,
     throughput_runs_per_sec: f64,
@@ -87,6 +90,7 @@ pub fn format_json(config: &Config, metrics: &Metrics) -> String {
             command: &config.command,
         },
         iterations: config.iterations,
+        concurrency: config.concurrency,
         successes: metrics.success_count,
         failures: metrics.failure_count,
         throughput_runs_per_sec: metrics.throughput,
