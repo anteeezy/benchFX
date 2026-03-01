@@ -1,16 +1,8 @@
-```
-   __                __   _____  __
-  / /  ___ ___  ____/ /  / __/ |/_/
- / _ \/ -_) _ \/ __/ _ \/ _/_>  <  
-/_.__/\__/_//_/\__/_//_/_/ /_/|_|  
-                                                                      
-```
-
 # BenchFX
 
 BenchFX is a Rust CLI tool for benchmarking arbitrary system commands.
 
-It executes a command repeatedly, measures latency distributions
+It executes a command repeatedly, measures latency distributions  
 (min / avg / p50 / p90 / p95 / p99), calculates throughput, and tracks failures.
 
 BenchFX is designed for clarity, determinism, and scriptable performance analysis.
@@ -23,6 +15,7 @@ BenchFX is designed for clarity, determinism, and scriptable performance analysi
 - High-resolution latency measurement
 - Percentile reporting (nearest-rank method)
 - Throughput calculation (runs/sec)
+- Concurrent execution with configurable worker count
 - Failure tracking
 - JSON output for CI and automation
 
@@ -48,25 +41,44 @@ cargo build --release
 
 ## Usage
 
-Basic example:
-
 ```bash
-cargo run -- --command "curl -s https://api.github.com" --iterations 5
+benchfx --command <COMMAND> --iterations <N> [OPTIONS]
 ```
 
+### Required Arguments
+
 ```bash
-cargo run -- --command "echo hi" --iterations 3
+--command <COMMAND>        Command to execute (wrap in quotes)
+--iterations <N>           Total number of executions
 ```
 
-JSON output:
+### Optional Arguments
 
 ```bash
-benchfx --command "echo hi" --iterations 1000 --output json
+--concurrency <N>          Maximum concurrent workers (default: 1)
+--timeout <MS>             Timeout per execution in milliseconds (default: 1000)
+--output <FORMAT>          Output format: pretty | json (default: pretty)
+-h, --help                 Print help information
 ```
 
 ---
 
-## Example Output
+### Concurrency Semantics
+
+`--concurrency N` specifies the maximum number of concurrent workers.  
+Total iterations remain constant and are evenly distributed across workers.
+
+Example:
+
+```bash
+benchfx --command "echo hi" --iterations 100 --concurrency 4
+```
+
+Runs 100 total executions with up to 4 concurrent workers.
+
+---
+
+## Example Output (Pretty)
 
 ```
 ========================
@@ -75,6 +87,7 @@ benchfx --command "echo hi" --iterations 1000 --output json
 
 Command:      echo hi
 Iterations:   3
+Concurrency:  1
 Successes:    3
 Failures:     0
 
@@ -92,19 +105,24 @@ Latency (ms):
 ========================
 ```
 
-```
+---
+
+## Example Output (JSON)
+
+```json
 {
   "target": {
     "command": "echo hi"
   },
   "iterations": 3,
+  "concurrency": 1,
   "successes": 3,
   "failures": 0,
-  "throughput_runs_per_sec": 58.41849451645065,
+  "throughput_runs_per_sec": 58.418,
   "latency_ms": {
-    "min": 16.3559,
-    "avg": 17.115066666666667,
-    "p50": 16.6343,
+    "min": 16.356,
+    "avg": 17.115,
+    "p50": 16.634,
     "p90": 18.355,
     "p95": 18.355,
     "p99": 18.355,
@@ -112,6 +130,7 @@ Latency (ms):
   }
 }
 ```
+
 ---
 
 ## Design Principles
@@ -120,6 +139,7 @@ Latency (ms):
 - Explicit percentile definition (nearest-rank)
 - Clear separation of measurement and reporting
 - Deterministic, scriptable output
+- Minimal overhead and predictable behavior
 
 ---
 
@@ -128,10 +148,13 @@ Latency (ms):
 - [x] Throughput calculation
 - [x] Percentile metrics
 - [x] JSON output
-- [ ] Configurable concurrency
+- [x] Configurable concurrency
 - [ ] Live progress display
 - [ ] HTTP benchmarking mode
+- [ ] Duration-based execution mode
 
 ---
 
 ## License
+
+MIT (recommended) or your license of choice.
