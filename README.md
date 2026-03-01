@@ -1,7 +1,7 @@
+# BenchFX
 ![CI](https://github.com/anteeezy/benchfx/actions/workflows/rust.yml/badge.svg)
 ![Rust](https://img.shields.io/badge/rust-stable-orange.svg)
-
-# BenchFX
+![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 
 BenchFX is a Rust CLI tool for benchmarking arbitrary system commands.
 
